@@ -14,7 +14,7 @@ The source code will be uploaded soon.
 In this work, we proposed a new dataset of realistic blurry and sharp image pairs using a high-speed camera.
 However, we do not provide blur kernels.
 
-Statistics| Training | Test |Total 
+Statistics| Training | Test | Total 
 -- | -- | -- | --
 sequences | 22 | 11 | 33
 image pairs | 2103 | 1111 | 3214
