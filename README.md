@@ -19,7 +19,6 @@ Statistics| Training | Test |Total
 sequences | 22 | 11 | 33
 image pairs | 2103 | 1111 | 3214
 
-
 __*Download link*__ 
 
 * [GOPRO_Large](http://cv.snu.ac.kr/~snah/Deblur/dataset/GOPRO_Large.zip)
