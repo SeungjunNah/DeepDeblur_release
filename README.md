@@ -3,7 +3,9 @@
 Single image deblurring with deep learning.
 
 This is a project page for our research.
-Please refer to our arXiv paper for details: [arXiv](https://arxiv.org/abs/1612.02177)
+Please refer to our arXiv paper for details:
+
+[Deep Multi-scale Convolutional Neural Network for Dynamic Scene Deblurring](https://arxiv.org/abs/1612.02177)
 
 ## Dependencies
 * torch7
@@ -12,8 +14,9 @@ Please refer to our arXiv paper for details: [arXiv](https://arxiv.org/abs/1612.
 
 ## Code
 
-To run demo, download the trained models into "experiment" folder.
-[models](cv.snu.ac.kr/~snah\Deblur\DeepDeblur_models/experiment.zip)
+To run demo, download and extract the trained models into "experiment" folder.
+
+* [models](http://cv.snu.ac.kr/~snah/Deblur/DeepDeblur_models/experiment.zip)
 
 Type following command in "code" folder.
 ```lua
@@ -38,7 +41,7 @@ optional parameters are listed in opts.lua
 ## Dataset
 
 In this work, we proposed a new dataset of realistic blurry and sharp image pairs using a high-speed camera.
-However, we do not provide blur kernels. 
+However, we do not provide blur kernels as they are unknown.
 
 Statistics | Training | Test | Total 
 -- | -- | -- | --
@@ -46,9 +49,13 @@ sequences | 22 | 11 | 33
 image pairs | 2103 | 1111 | 3214
 
 
-__*Download link*__ 
+__*Download links*__ 
 
 * [GOPRO_Large](http://cv.snu.ac.kr/~snah/Deblur/dataset/GOPRO_Large.zip)
+: Blurry and sharp image pairs. Blurry images includes both gamma corrected and not corrected (linear CRF) versions.
+
+* [GOPRO_Large_all](http://cv.snu.ac.kr/~snah/Deblur/dataset/GOPRO_Large_all.zip)
+: All the sharp images used to generate blurry images. You can generate new blurry images by accumulating differing number of sharp frames.
 
 [//]: # " * [GOPRO_Large_raw](http://cv.snu.ac.kr/~snah/Deblur/dataset/GOPRO_Large_raw.zip)"
 
@@ -65,4 +72,5 @@ Blurry image example 2
 
 Sharp image example 2
 ![Sharp image](images/Flower_sharp1.png)
+
 
