@@ -16,7 +16,7 @@ Please refer to our arXiv paper for details:
 
 To run demo, download and extract the trained models into "experiment" folder.
 
-* [models](cv.snu.ac.kr/~snah\Deblur\DeepDeblur_models/experiment.zip)
+* [models](http://cv.snu.ac.kr/~snah/Deblur/DeepDeblur_models/experiment.zip)
 
 Type following command in "code" folder.
 ```lua
