@@ -72,7 +72,7 @@ dofile 'test.lua'
 epoch = opt.epochNumber
 print('epoch begins : '..epoch)
 local epoch_threshold = opt.nEpochs
-local slow_down_period = math.ceil(150 * 4000/opt.epochbatchSize)
+local slow_down_step = math.ceil(150 * 4000/opt.epochbatchSize)
 
 if opt.load then
 	require 'trepl'()
