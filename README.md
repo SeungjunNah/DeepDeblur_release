@@ -20,12 +20,16 @@ To run demo, download and extract the trained models into "experiment" folder.
 
 Type following command in "code" folder.
 ```lua
-qlua -i demo.lua -load -save scale3_adv_crf -blur_type gamma2.2
-qlua -i demo.lua -load -save scale3_adv_lin -blur_type linear
+qlua -i demo.lua -load -save release_scale3_adv_gamma -blur_type gamma2.2
+qlua -i demo.lua -load -save release_scale3_adv_lin -blur_type linear
 ```
 
 To train a model, clone this repository and download below dataset in "dataset" directory.
-Then run main.lua in 'code' folder with optional parameters.
+
+The data structure should look like 
+"dataset/GOPRO_Large/train/GOPRxxxx_xx_xx/blur/xxxxxx.png"
+
+Then run main.lua in "code" directory with optional parameters.
 ```lua
 -- Train for 450 epochs, save in 'experiment/scale3'
 th main.lua -nEpochs 450 -save scale3
