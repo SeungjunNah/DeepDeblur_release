@@ -3,9 +3,9 @@
 Single image deblurring with deep learning.
 
 This is a project page for our research.
-Please refer to our arXiv paper for details:
+Please refer to our CVPR 2017 paper for details:
 
-[Deep Multi-scale Convolutional Neural Network for Dynamic Scene Deblurring](https://arxiv.org/abs/1612.02177)
+[Deep Multi-scale Convolutional Neural Network for Dynamic Scene Deblurring](http://openaccess.thecvf.com/content_cvpr_2017/papers/Nah_Deep_Multi-Scale_Convolutional_CVPR_2017_paper.pdf)
 
 ## Dependencies
 * torch7
