@@ -80,6 +80,8 @@ function set_state(optimization)
 		optimState = {
 			learningRate = opt.rateLearning,
 			beta1 = opt.beta1,
+			beta2 = opt.beta2,
+			epsilon = opt.epsilon,
 			weightDecay = opt.weightDecay
 		}
 		optimMethod = optim.adam
@@ -170,8 +172,10 @@ feval.G = function(x)
 	model.G:zeroGradParameters()
 
 	local output = model_container:forward(blur)
-	deblurred, gt[1] = output[1], sharp
-	if adv_train then
+	if adv_train == false then
+		deblurred, gt = output, sharp
+	elseif adv_train == true then
+		deblurred, gt[1] = output[1], sharp
 		output_label = output[2]
 	end
 
@@ -208,7 +212,7 @@ function trainBatch(inputs, targets, shuffle)
 	blur = inputs
 	sharp = {}
 	for lv, lv_patch in ipairs(targets) do
-		sharp[lv] = lv_patch:cuda()
+			sharp[lv] = lv_patch:cuda()
 	end
 	
 	optimMethod.G(feval.G, parameters.G, optimState.G)
@@ -221,11 +225,11 @@ function trainBatch(inputs, targets, shuffle)
 end
 
 function train()
-    print('==> doing epoch on training data:')
-    print("==> online epoch # " .. epoch .. ' [mini-batchSize = ' .. opt.minibatchSize .. ']')
-    
+	print('==> doing epoch on training data:')
+	print("==> online epoch # " .. epoch .. ' [mini-batchSize = ' .. opt.minibatchSize .. ']')
+
 	-- local vars
-    local timer = torch.Timer()
+	local timer = torch.Timer()
 	
 	-- set model to training mode (for modules that differ in training and testing, like Dropout)
 	cutorch.synchronize()
@@ -293,14 +297,14 @@ function train()
 		print('average Entropy(real) : ' .. train_entropy.real[epoch])
 	end
 	-- time taken
-    local time = timer:time().real / 60
+	local time = timer:time().real / 60
 	print("==> time to learn 1 epoch = " .. time .. ' min')
 	
 	collectgarbage()
 	collectgarbage()
 	
-    -- save/log current net
-    do
+	-- save/log current net
+	do
 		opt.epochNumber = epoch
 		filename = paths.concat(opt.save, 'opt')
 		torch.save(filename, opt)
