@@ -5,7 +5,21 @@ Single image deblurring with deep learning.
 This is a project page for our research.
 Please refer to our CVPR 2017 paper for details:
 
-[Deep Multi-scale Convolutional Neural Network for Dynamic Scene Deblurring](http://openaccess.thecvf.com/content_cvpr_2017/papers/Nah_Deep_Multi-Scale_Convolutional_CVPR_2017_paper.pdf)
+Deep Multi-scale Convolutional Neural Network for Dynamic Scene Deblurring
+[[paper](http://openaccess.thecvf.com/content_cvpr_2017/papers/Nah_Deep_Multi-Scale_Convolutional_CVPR_2017_paper.pdf)]
+[[supplementary](http://openaccess.thecvf.com/content_cvpr_2017/supplemental/Nah_Deep_Multi-Scale_Convolutional_2017_CVPR_supplemental.zip)]
+[[slide](http://cv.snu.ac.kr/~snah/Deblur/CVPR2017_DeepDeblur_release.pptx)]
+
+If you find our work useful in your research or publication, please cite our work:
+```
+@InProceedings{Nah_2017_CVPR,
+  author = {Nah, Seungjun and Kim, Tae Hyun and Lee, Kyoung Mu},
+  title = {Deep Multi-Scale Convolutional Neural Network for Dynamic Scene Deblurring},
+  booktitle = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  month = {July},
+  year = {2017}
+}
+```
 
 ## Dependencies
 * torch7
