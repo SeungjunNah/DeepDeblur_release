@@ -212,7 +212,7 @@ function trainBatch(inputs, targets, shuffle)
 	blur = inputs
 	sharp = {}
 	for lv, lv_patch in ipairs(targets) do
-			sharp[lv] = lv_patch:cuda()
+		sharp[lv] = lv_patch:cuda()
 	end
 	
 	optimMethod.G(feval.G, parameters.G, optimState.G)
