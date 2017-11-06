@@ -8,7 +8,8 @@ Please refer to our CVPR 2017 paper for details:
 Deep Multi-scale Convolutional Neural Network for Dynamic Scene Deblurring
 [[paper](http://openaccess.thecvf.com/content_cvpr_2017/papers/Nah_Deep_Multi-Scale_Convolutional_CVPR_2017_paper.pdf)]
 [[supplementary](http://openaccess.thecvf.com/content_cvpr_2017/supplemental/Nah_Deep_Multi-Scale_Convolutional_2017_CVPR_supplemental.zip)]
-[[slide](http://cv.snu.ac.kr/~snah/Deblur/CVPR2017_DeepDeblur_release.pptx)]
+[[slide](https://www.dropbox.com/s/khwj2wnhjcowxv3/CVPR2017_DeepDeblur_release.pptx?dl=0)]
+<!-- [[slide](http://cv.snu.ac.kr/~snah/Deblur/CVPR2017_DeepDeblur_release.pptx)] -->
 
 If you find our work useful in your research or publication, please cite our work:
 ```
@@ -30,7 +31,8 @@ If you find our work useful in your research or publication, please cite our wor
 
 To run demo, download and extract the trained models into "experiment" folder.
 
-* [models](http://cv.snu.ac.kr/~snah/Deblur/DeepDeblur_models/experiment.zip)
+<!-- * [models](http://cv.snu.ac.kr/~snah/Deblur/DeepDeblur_models/experiment.zip) -->
+* [models](https://www.dropbox.com/s/xhlwjfswejh2pbi/experiment.zip?dl=0)
 
 Type following command in "code" folder.
 ```lua
@@ -69,7 +71,8 @@ image pairs | 2103 | 1111 | 3214
 
 __*Download links*__ 
 
-* [GOPRO_Large](http://cv.snu.ac.kr/~snah/Deblur/dataset/GOPRO_Large.zip)
+<!-- * [GOPRO_Large](http://cv.snu.ac.kr/~snah/Deblur/dataset/GOPRO_Large.zip) -->
+* [GOPRO_Large](https://www.dropbox.com/s/49agq840mcr02vp/GOPRO_Large.zip?dl=0)
 : Blurry and sharp image pairs. Blurry images includes both gamma corrected and not corrected (linear CRF) versions.
 
 * [GOPRO_Large_all](http://cv.snu.ac.kr/~snah/Deblur/dataset/GOPRO_Large_all.zip)
