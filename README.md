@@ -96,3 +96,6 @@ Sharp image example 2
 ![Sharp image](images/Flower_sharp1.png)
 
 
+## Acknowledgement
+
+This project is partially funded by Microsoft Research Asia
