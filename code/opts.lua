@@ -32,6 +32,9 @@ function M.parse(arg)
 	cmd:option('-nStates', 64, '# of hidden units')
 	cmd:option('-filtsize', 5, 'filter size')
 	cmd:option('-nlayers', 40, 'number of conv layers at each scale: at least 1')
+	cmd:option('-reduce_model', false, 'reduce pre-trained model features')
+	cmd:option('-reduce_method', 'simple', 'model reduction method: simple | cluster')
+	cmd:option('-prune_ratio', 0, 'ratio of feature maps to be zeroed out. 0 <= r < 1')
 	-- loss:
 	cmd:option('-abs_weight', 0, 'weight of L1 loss. At least one loss should be positive')
 	cmd:option('-mse_weight', 1, 'weight of L2 loss. At least one loss should be positive')
@@ -50,7 +53,10 @@ function M.parse(arg)
 	cmd:option('-rateLearning', 5e-5, 'initial learning rate')
 	cmd:option('-weightDecay', 0, 'weight decay (SGD only)')--1e-6
 	cmd:option('-momentum', 0.9, 'momentum (SGD only)')
-	cmd:option('-type', 'cuda', 'type: float | cuda')
+	cmd:option('-beta1', 0.9, 'first momentum coefficient (ADAM)')
+	cmd:option('-beta2', 0.999, 'first momentum coefficient (ADAM)')
+	cmd:option('-epsilon', 1e-8, 'first momentum coefficient (ADAM)')
+	cmd:option('-type', 'cuda', 'type: float | cuda | cudaHalf')
 	
 	-- continue experiment
 	cmd:option('-load', false, 'load trained data. You may continue training')
@@ -77,6 +83,10 @@ function M.parse(arg)
 		table.insert(update_list, 'minibatchSize')
 		table.insert(update_list, 'train_only')
 		table.insert(update_list, 'blur_type')
+		table.insert(update_list, 'type')
+		if opt.reduce_model then
+			table.insert(update_list, 'nStates')
+		end
 		
 		for key, value in next, opt_old do -- do not use ipairs
 			if not table.ismember(update_list, key) then
@@ -89,7 +99,9 @@ function M.parse(arg)
 			local max_epoch = 1
 			for modelname in paths.iterfiles(model_dir) do
 				local iter = tonumber(modelname:sub(7, -4))
-				max_epoch = math.max(max_epoch, iter)
+				if iter then	-- nil if not number
+					max_epoch = math.max(max_epoch, iter)
+				end
 			end
 			opt.epochNumber = max_epoch + 1
 		end
@@ -115,9 +127,16 @@ function M.parse(arg)
 	if opt.type == 'float' then
 		print('==> switching to floats')
 		operate_type = default_type
-	elseif opt.type == 'cuda' then
+	elseif opt.type:find('cuda') then
 		print('==> switching to CUDA')
-		operate_type = 'torch.CudaTensor'
+		if opt.type == 'cuda' then
+			operate_type = 'torch.CudaTensor'
+		elseif opt.type == 'cudaHalf' then
+			operate_type = 'torch.CudaHalfTensor'
+			if not (opt.load or opt.continue) then
+				opt.epsilon = math.sqrt(opt.epsilon)
+			end
+		end
 		cutorch.setDevice(opt.gpuid)
 		-- if cutorch.getDeviceCount() >= (opt.gpuid + opt.ngpu - 1) then
 		-- 	cutorch.setDevice(opt.gpuid)

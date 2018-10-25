@@ -98,7 +98,7 @@ else
 			end
 		end
 		-- next epoch
-	    epoch = epoch + 1
+		epoch = epoch + 1
 	end
 	epoch = epoch - 1
 	if opt.train_only then
