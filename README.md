@@ -9,7 +9,7 @@ Deep Multi-scale Convolutional Neural Network for Dynamic Scene Deblurring
 [[paper](http://openaccess.thecvf.com/content_cvpr_2017/papers/Nah_Deep_Multi-Scale_Convolutional_CVPR_2017_paper.pdf)]
 [[supplementary](http://openaccess.thecvf.com/content_cvpr_2017/supplemental/Nah_Deep_Multi-Scale_Convolutional_2017_CVPR_supplemental.zip)]
 [[slide](https://drive.google.com/file/d/1sj7l2tGgJR-8wTyauvnSDGpiokjOzX_C/view?usp=sharing)]
-<!-- [[slide](http://cv.snu.ac.kr/~snah/Deblur/CVPR2017_DeepDeblur_release.pptx)] -->
+<!-- [[slide](https://cv.snu.ac.kr/~snah/Deblur/CVPR2017_DeepDeblur_release.pptx)] -->
 
 If you find our work useful in your research or publication, please cite our work:
 ```
@@ -23,10 +23,14 @@ If you find our work useful in your research or publication, please cite our wor
 ```
 
 ## Dependencies
-* torch7
+* [torch7](http://torch.ch/docs/getting-started.html#_)
 * [torchx](https://github.com/nicholas-leonard/torchx)
+```bash
+  luarocks install torchx
+```
 * cudnn
 
+If you 
 ## Code
 
 To run demo, download and extract the trained models into "experiment" folder.
@@ -35,9 +39,9 @@ To run demo, download and extract the trained models into "experiment" folder.
 * [models](https://drive.google.com/file/d/1Z8dV6KuubfOKj4ganEjxymhyMoXoydfo/view?usp=sharing)
 
 Type following command in "code" folder.
-```lua
-qlua -i demo.lua -load -save release_scale3_adv_gamma -blur_type gamma2.2
-qlua -i demo.lua -load -save release_scale3_adv_lin -blur_type linear
+```bash
+qlua -i demo.lua -load -save release_scale3_adv_gamma -blur_type gamma2.2 -type cudaHalf
+qlua -i demo.lua -load -save release_scale3_adv_lin -blur_type linear -type cudaHalf
 ```
 
 To train a model, clone this repository and download below dataset in "dataset" directory.
@@ -46,17 +50,15 @@ The data structure should look like
 "dataset/GOPRO_Large/train/GOPRxxxx_xx_xx/blur/xxxxxx.png"
 
 Then run main.lua in "code" directory with optional parameters.
-```lua
--- Train for 450 epochs, save in 'experiment/scale3'
-th main.lua -nEpochs 450 -save scale3
--- Load saved model
-th main.lua -load -save scale3
+```bash
+th main.lua -nEpochs 450 -save scale3 # Train for 450 epochs, save in 'experiment/scale3'
+th main.lua -load -save scale3  # Load saved model
 > blur_dir, output_dir = ...
 > deblur_dir(blur_dir, output_dir)
 ```
-optional parameters are listed in opts.lua
+Optional parameters are listed in opts.lua
 
-
+ex) -type: Operation type option. Supports cuda and cudaHalf. Half precision CNN has similar accuracy as single precision in evaluation mode. However, fp16 training is not meant to be supported in this code. ADAM optimizer is hard to use with fp16.
 
 ## Dataset
 
