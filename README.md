@@ -30,7 +30,6 @@ If you find our work useful in your research or publication, please cite our wor
 ```
 * cudnn
 
-If you 
 ## Code
 
 To run demo, download and extract the trained models into "experiment" folder.
