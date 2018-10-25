@@ -68,6 +68,7 @@ function get_output(input_img_pyramid)
 		end
 	end
 	collectgarbage()
+	collectgarbage()
 	
 	return output_img_pyramid
 end
@@ -126,6 +127,40 @@ function get_output_img(input_img, input_img_name)
 
 	local output_img_pyramid = get_output(input_img_pyramid)
 	local output_img = output_img_pyramid[1][1]:sub(1,-1, 1,height, 1,width):contiguous()
+
+	collectgarbage()
+	collectgarbage()
+
+	return output_img
+end
+
+function get_output_img_part(input_img, input_img_name, xmin, xmax, ymin, ymax, margin)
+	local input_img = input_img
+	if not input_img then
+		input_img = image.load(input_img_name, 3)
+	end
+	local margin = margin or 16
+	
+	local output_img = input_img:clone()
+	local orig_imsize = output_img:size()
+
+	local height, width = orig_imsize[2], orig_imsize[3]
+
+	local xmin, ymin = xmin or 1, ymin or 1
+	local xmax, ymax = xmax or width, ymax or height
+	xmin, ymin = math.max(1, xmin), math.max(1, ymin)
+	xmax, ymax = math.min(xmax, width), math.min(ymax, height)
+	local xmin_, ymin_ = math.max(1, xmin-margin), math.max(1, ymin-margin)
+	local xmax_, ymax_ = math.min(xmax+margin, width), math.min(ymax+margin, height)
+	local margin_xmin, margin_ymin = xmin - xmin_, ymin - ymin_
+	local margin_xmax, margin_ymax = xmax_ - xmax, ymax_ - ymax
+
+	local blur_part = input_img:sub(1,-1, ymin_,ymax_, xmin_,xmax_):contiguous()
+
+	local deblurred_part = get_output_img(blur_part)
+	output_img[{{1,-1}, {ymin,ymax}, {xmin,xmax}}]:copy(
+		deblurred_part:sub(1,-1, margin_ymin+1,-margin_ymax-1, margin_xmin+1,-margin_xmax-1)
+		)
 
 	collectgarbage()
 	collectgarbage()
@@ -223,8 +258,9 @@ function test(epochNumber, save_result, full_data)
 	draw_error_plot(test_psnr, 'Test', 'PSNR')
     
 
-	local time = timer:time().real / 60
-	print("==> time to test = " .. time .. ' min\n')
+	local time = timer:time().real
+	print("==> time to test = " .. time/60 .. ' min')
+	print("==> time per image = " .. time/test_count .. ' sec\n')
 	
 	return
 end
@@ -261,13 +297,14 @@ function demo(image_dir, output_dir)
 		
 		local fullname = paths.concat(image_dir, img_name)
 		img = image.load(fullname)
-		window = image.display{image = img, offscreen = false, win = window}
+		window = image.display{image = img, min=0, max=1, offscreen = false, win = window}--, gui = false}
 		
 		local timer = torch.Timer()
 		local output_img = get_output_img(nil, fullname)
 		local deblur_time = timer:time().real
 		print(' ' .. deblur_time .. ' s taken')
-		window = image.display{image = output_img, offscreen = false, win = window}
+		-- window = image.display{image = output_img, offscreen = false, win = window}
+		window = image.display{image = output_img, min=0, max=1, offscreen = false, win = window}--, gui = false}
 		image.save(paths.concat(output_dir, img_name), output_img)
 		sys.sleep(3)
 	end

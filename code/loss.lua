@@ -5,7 +5,7 @@ require 'cunn'
 if not opt then
 	local opts = paths.dofile('opts.lua')
 	opt = opts.parse(arg)
-    dofile 'data.lua'
+	dofile 'data.lua'
 end
 
 adv_train = opt.adv_weight > 0
@@ -43,6 +43,12 @@ if opt.type == 'cuda' then
 		criterion.D = criterion.D:cuda()
 	end
 	criterion_container = criterion_container:cuda()
+elseif opt.type == 'cudaHalf' then
+	criterion.G = criterion.G:cudaHalf()
+	if adv_train then
+		criterion.D = criterion.D:cudaHalf()
+	end
+	criterion_container = criterion_container:cudaHalf()
 end
 
 ----------------------------------------------------------------------

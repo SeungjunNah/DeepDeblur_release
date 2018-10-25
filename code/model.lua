@@ -232,7 +232,8 @@ function generate_discriminator()
 	local filtsize = filtsize or 5
 	local pad = (filtsize-1)/2
 
-	local conv_front = nn.SpatialConvolution(nChannel,32, filtsize,filtsize, 1,1, pad,pad):noBias()
+	local nFeat = opt.nStates
+	local conv_front = nn.SpatialConvolution(nChannel,nFeat/2, filtsize,filtsize, 1,1, pad,pad):noBias()
 	local negval = 0.2 -- nil
 	--[[
 		local dense = nn.SpatialConvolution(1024,1, 1,1)
@@ -250,19 +251,19 @@ function generate_discriminator()
 			:add(conv_block(filtsize, 512,1024, 2, negval))	-- 1
 			:add(dense):add(nn.Sigmoid())
 	]]--
-	local dense = nn.SpatialConvolution(512,1, 1,1)
+	local dense = nn.SpatialConvolution(nFeat*8,1, 1,1)
 	local model = nn.Sequential()
 		:add(nn.SelectTable(1))
 		:add(conv_front):add(nn.LeakyReLU(negval, true))
-		:add(conv_block(filtsize, 32,32, 2, negval))	-- 128
-		:add(conv_block(filtsize, 32,64, 1, negval))
-		:add(conv_block(filtsize, 64,64, 2, negval))	-- 64
-		:add(conv_block(filtsize, 64,128, 1, negval))
-		:add(conv_block(filtsize, 128,128, 4, negval))	-- 16
-		:add(conv_block(filtsize, 128,256, 1, negval))
-		:add(conv_block(filtsize, 256,256, 4, negval))	-- 4
-		:add(conv_block(filtsize, 256,512, 1, negval))
-		:add(conv_block(4, 512,512, 4, negval, 0))	-- 1	filtsize 5 is equivalent to 4 here
+		:add(conv_block(filtsize, nFeat/2,nFeat/2, 2, negval))	-- 128
+		:add(conv_block(filtsize, nFeat/2,nFeat, 1, negval))
+		:add(conv_block(filtsize, nFeat,nFeat, 2, negval))	-- 64
+		:add(conv_block(filtsize, nFeat,nFeat*2, 1, negval))
+		:add(conv_block(filtsize, nFeat*2,nFeat*2, 4, negval))	-- 16
+		:add(conv_block(filtsize, nFeat*2,nFeat*4, 1, negval))
+		:add(conv_block(filtsize, nFeat*4,nFeat*4, 4, negval))	-- 4
+		:add(conv_block(filtsize, nFeat*4,nFeat*8, 1, negval))
+		:add(conv_block(4, nFeat*8,nFeat*8, 4, negval, 0))	-- 1	filtsize 5 is equivalent to 4 here
 		:add(dense):add(nn.Sigmoid())
 		
 	model = cudnn.convert(model, cudnn):cuda()
@@ -282,7 +283,7 @@ function load_main_model(epochNumber)
 	local epochNumber = epochNumber or opt.epochNumber - 1
 	local modelname = paths.concat(opt.save, 'models', 'model-'.. epochNumber .. '.t7')
 	print('==> loading model from ' .. modelname)
-    
+
 	assert(paths.filep(modelname), 'no trained model found!')
 	local model = torch.load(modelname)
 	if torch.type(model) ~= 'table' then	-- backward compatibility
@@ -291,9 +292,54 @@ function load_main_model(epochNumber)
 			model.D = generate_discriminator()
 		end
 	end
-	
+
 	return model
-    
+
+end
+
+function reduce_model(nFeat_new)
+	local nFeat_new = nFeat_new or opt.nStates
+	-- assume nFeat_new is equal to or less than previous opt.nStates
+
+	local reducer = function(module)
+		local layername = torch.type(module)
+		if layername:find('SpatialConvolution') then
+			
+			local nInputPlance = math.min(nFeat_new, module.nInputPlane)
+			local nOutputPlane = math.min(nFeat_new, module.nOutputPlane)
+			
+			local conv = nn.SpatialConvolution(nInputPlance,nOutputPlane, 
+				module.kW,module.kH, module.dW,module.dH, module.padW,module.padH)
+			if layername:find('cudnn') then
+				conv = cudnn.convert(conv, cudnn)
+			end
+			conv:type(module._type)
+
+			if opt.reduce_method == 'simple' then
+				
+				conv.weight:copy(module.weight:sub(1,conv.nOutputPlane, 1,conv.nInputPlane))
+				if module.bias then
+					conv.bias:copy(module.bias:sub(1, conv.nOutputPlane))
+				else
+					conv:noBias()
+				end
+				
+			elseif opt.reduce_method == 'cluster' then
+
+			end
+
+			collectgarbage()
+			collectgarbage()
+
+			return conv
+		else
+			return module
+		end
+	end
+
+	-- model.G reduction
+	model.G:replace(reducer)
+
 end
 
 function save_main_model(epochNumber)
@@ -329,6 +375,9 @@ if opt.load or opt.continue then
 else
 	if paths.filep(opt.loadmodel) then
 		model = torch.load(opt.loadmodel)
+		if opt.reduce_model then
+			reduce_model(opt.nStates)
+		end
 	else
 		model = {}
 		model.G = generate_main_model(opt.model)
@@ -338,7 +387,33 @@ else
 	end
 end
 
+if opt.type == 'cuda' then
+	model.G:cuda()
+	if adv_train then
+		model.D:cuda()
+	end
+elseif opt.type == 'cudaHalf' then
+	-- convert loaded model to fp16 model
+	print('Converting to CudaHalfTensor')
+	model.G:type('torch.CudaHalfTensor')
+	if adv_train then
+		model.D:type('torch.CudaHalfTensor')
+	end
+end
+
 parameters, gradParameters = get_model_parameters()
+
+if opt.prune_ratio > 0 then
+	local val, ind = torch.abs(parameters.G):sort()
+	local nElems = parameters.G:nElement()
+	local nZeros = math.floor(nElems * opt.prune_ratio)
+	if nZeros > 0 and nZeros < nElems then
+		parameters.G:scatter(1, ind[{{1, nZeros}}], 0)
+	end
+	collectgarbage()
+	collectgarbage()
+	print('Weight parameters zeroed: ' .. nZeros .. '/' .. nElems)
+end
 ----------------------------------------------------------------------
 do
 	model_container = nn.Sequential()

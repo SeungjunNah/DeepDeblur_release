@@ -162,8 +162,15 @@ local blur, sharp, deblurred
 local gt = {}
 local true_label, false_label
 if adv_train then
-	true_label = torch.ones(opt.minibatchSize):cuda()
-	false_label = torch.zeros(opt.minibatchSize):cuda()
+	true_label = torch.ones(opt.minibatchSize)
+	false_label = torch.zeros(opt.minibatchSize)
+	if opt.type == 'cuda' then
+		true_label = true_label:cuda()
+		false_label = false_label:cuda()
+	elseif opt.type == 'cudaHalf' then
+		true_label = true_label:cudaHalf()
+		false_label = false_label:cudaHalf()
+	end
 	gt[2] = true_label
 end
 
@@ -212,7 +219,11 @@ function trainBatch(inputs, targets, shuffle)
 	blur = inputs
 	sharp = {}
 	for lv, lv_patch in ipairs(targets) do
-		sharp[lv] = lv_patch:cuda()
+		if opt.type == 'cudaHalf' then
+			sharp[lv] = lv_patch:cudaHalf()
+		else
+			sharp[lv] = lv_patch:cuda()
+		end
 	end
 	
 	optimMethod.G(feval.G, parameters.G, optimState.G)
