@@ -22,6 +22,15 @@ If you find our work useful in your research or publication, please cite our wor
 }
 ```
 
+## New dataset released!
+
+Check out our new **REDS** dataset!
+In CVPR 2019, I am co-organizing the [4th NTIRE workshop and challenges](http://www.vision.ee.ethz.ch/ntire19/) and the according video restoration challenges. 
+We released the **REDS** dataset for challenge participants to train and evaluate video deblurring / super-resolution algorithms.
+Special thanks go to my colleagues, Sungyong Baik, Seokil Hong, [Gyeongsik Moon](https://scholar.google.co.kr/citations?user=2f2D258AAAAJ&hl=en), [Sanghyun Son](https://scholar.google.co.kr/citations?user=nWaSdu0AAAAJ&hl=en) and [Kyoung Mu Lee](https://scholar.google.co.kr/citations?user=Hofj9kAAAAAJ&hl=en) for collecting, processing, and releasing the dataset together.
+
+[<img src="images/NTIRE2019.jpg">](http://www.vision.ee.ethz.ch/ntire19/)
+
 ## Dependencies
 * [torch7](http://torch.ch/docs/getting-started.html#_)
 * [torchx](https://github.com/nicholas-leonard/torchx)
