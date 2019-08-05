@@ -24,10 +24,14 @@ If you find our work useful in your research or publication, please cite our wor
 
 ## New dataset released!
 
-Check out our new **REDS** dataset!
-In CVPR 2019, I am co-organizing the [4th NTIRE workshop](http://www.vision.ee.ethz.ch/ntire19/) and the according video restoration challenges. 
+Check out our new **[REDS](https://seungjunnah.github.io/Datasets/reds)** dataset!
+In CVPR 2019, I am co-organized the [4th NTIRE workshop](http://www.vision.ee.ethz.ch/ntire19/) and the according video restoration challenges. 
 We released the **REDS** dataset for challenge participants to train and evaluate video deblurring / super-resolution algorithms.
-Special thanks go to my colleagues, Sungyong Baik, Seokil Hong, [Gyeongsik Moon](https://scholar.google.co.kr/citations?user=2f2D258AAAAJ&hl=en), [Sanghyun Son](https://scholar.google.co.kr/citations?user=nWaSdu0AAAAJ&hl=en) and [Kyoung Mu Lee](https://scholar.google.co.kr/citations?user=Hofj9kAAAAAJ&hl=en) for collecting, processing, and releasing the dataset together.
+Special thanks go to my colleagues, [Sungyong Baik](https://scholar.google.com/citations?user=lQ4gotkAAAAJ&hl=en), [Seokil Hong](https://scholar.google.com/citations?user=nYDLTksAAAAJ&hl=en), [Gyeongsik Moon](https://scholar.google.com/citations?user=2f2D258AAAAJ&hl=en), [Sanghyun Son](https://scholar.google.com/citations?user=nWaSdu0AAAAJ&hl=en), [Radu Timofte](https://scholar.google.com/citations?user=u3MwH5kAAAAJ&hl=en) and [Kyoung Mu Lee](https://scholar.google.com/citations?user=Hofj9kAAAAAJ&hl=en) for collecting, processing, and releasing the dataset together.
+
+### Updates
+Downloads are now available for training, validation, and test input data. Public leaderboard site is under construction.
+Download page: [https://seungjunnah.github.io/Datasets/reds](https://seungjunnah.github.io/Datasets/reds)
 
 [<img src="images/NTIRE2019.jpg">](http://www.vision.ee.ethz.ch/ntire19/)
 
@@ -38,6 +42,11 @@ Special thanks go to my colleagues, Sungyong Baik, Seokil Hong, [Gyeongsik Moon]
   luarocks install torchx
 ```
 * cudnn
+```bash
+    cd ~/torch/extra/cudnn
+    git checkout R7 # R7 is for cudnn v7
+    luarocks make
+```
 
 ## Code
 
