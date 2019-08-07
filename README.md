@@ -25,15 +25,15 @@ If you find our work useful in your research or publication, please cite our wor
 ## New dataset released!
 
 Check out our new **[REDS](https://seungjunnah.github.io/Datasets/reds)** dataset!
-In CVPR 2019, I am co-organized the [4th NTIRE workshop](http://www.vision.ee.ethz.ch/ntire19/) and the according video restoration challenges. 
-We released the **REDS** dataset for challenge participants to train and evaluate video deblurring / super-resolution algorithms.
+In CVPR 2019, I co-organized the [4th NTIRE workshop](http://www.vision.ee.ethz.ch/ntire19/) and the corresponding video restoration challenges. 
+We released the **REDS(https://seungjunnah.github.io/Datasets/reds)** dataset for challenge participants to train and evaluate video deblurring / super-resolution methods.
 Special thanks go to my colleagues, [Sungyong Baik](https://scholar.google.com/citations?user=lQ4gotkAAAAJ&hl=en), [Seokil Hong](https://scholar.google.com/citations?user=nYDLTksAAAAJ&hl=en), [Gyeongsik Moon](https://scholar.google.com/citations?user=2f2D258AAAAJ&hl=en), [Sanghyun Son](https://scholar.google.com/citations?user=nWaSdu0AAAAJ&hl=en), [Radu Timofte](https://scholar.google.com/citations?user=u3MwH5kAAAAJ&hl=en) and [Kyoung Mu Lee](https://scholar.google.com/citations?user=Hofj9kAAAAAJ&hl=en) for collecting, processing, and releasing the dataset together.
 
 ### Updates
-Downloads are now available for training, validation, and test input data. Public leaderboard site is under construction.
+Downloads are now available for training, validation, and test input data. A public leaderboard site is under construction.
 Download page: [https://seungjunnah.github.io/Datasets/reds](https://seungjunnah.github.io/Datasets/reds)
 
-[<img src="images/NTIRE2019.jpg">](http://www.vision.ee.ethz.ch/ntire19/)
+<!--[<img src="images/NTIRE2019.jpg">](http://www.vision.ee.ethz.ch/ntire19/) -->
 
 ## Dependencies
 * [torch7](http://torch.ch/docs/getting-started.html#_)
