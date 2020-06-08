@@ -22,10 +22,15 @@ If you find our work useful in your research or publication, please cite our wor
 }
 ```
 
+## PyTorch version
+
+PyTorch version is now available: [https://github.com/SeungjunNah/DeepDeblur-PyTorch](https://github.com/SeungjunNah/DeepDeblur-PyTorch)
+
+
 ## New dataset released!
 
 Check out our new **[REDS](https://seungjunnah.github.io/Datasets/reds)** dataset!
-In CVPR 2019, I co-organized the [4th NTIRE workshop](http://www.vision.ee.ethz.ch/ntire19/) and the corresponding video restoration challenges. 
+In CVPR 2019, I co-organized the [4th NTIRE workshop](http://www.vision.ee.ethz.ch/ntire19/) and the corresponding video restoration challenges.
 We released the **[REDS](https://seungjunnah.github.io/Datasets/reds)** dataset for challenge participants to train and evaluate video deblurring / super-resolution methods.
 Special thanks go to my colleagues, [Sungyong Baik](https://scholar.google.com/citations?user=lQ4gotkAAAAJ&hl=en), [Seokil Hong](https://scholar.google.com/citations?user=nYDLTksAAAAJ&hl=en), [Gyeongsik Moon](https://scholar.google.com/citations?user=2f2D258AAAAJ&hl=en), [Sanghyun Son](https://scholar.google.com/citations?user=nWaSdu0AAAAJ&hl=en), [Radu Timofte](https://scholar.google.com/citations?user=u3MwH5kAAAAJ&hl=en) and [Kyoung Mu Lee](https://scholar.google.com/citations?user=Hofj9kAAAAAJ&hl=en) for collecting, processing, and releasing the dataset together.
 
@@ -63,7 +68,7 @@ qlua -i demo.lua -load -save release_scale3_adv_lin -blur_type linear -type cuda
 
 To train a model, clone this repository and download below dataset in "dataset" directory.
 
-The data structure should look like 
+The data structure should look like
 "dataset/GOPRO_Large/train/GOPRxxxx_xx_xx/blur/xxxxxx.png"
 
 Then run main.lua in "code" directory with optional parameters.
@@ -82,13 +87,13 @@ ex) -type: Operation type option. Supports cuda and cudaHalf. Half precision CNN
 In this work, we proposed a new dataset of realistic blurry and sharp image pairs using a high-speed camera.
 However, we do not provide blur kernels as they are unknown.
 
-Statistics | Training | Test | Total 
+Statistics | Training | Test | Total
 -- | -- | -- | --
 sequences | 22 | 11 | 33
 image pairs | 2103 | 1111 | 3214
 
 
-__*Download links*__ 
+__*Download links*__
 
 <!-- * [GOPRO_Large](http://cv.snu.ac.kr/~snah/Deblur/dataset/GOPRO_Large.zip) -->
 * [GOPRO_Large](https://drive.google.com/file/d/1H0PIXvJH4c40pk7ou6nAwoxuR4Qh_Sa2/view?usp=sharing)
