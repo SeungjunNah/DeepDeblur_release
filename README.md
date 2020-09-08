@@ -87,25 +87,14 @@ ex) -type: Operation type option. Supports cuda and cudaHalf. Half precision CNN
 In this work, we proposed a new dataset of realistic blurry and sharp image pairs using a high-speed camera.
 However, we do not provide blur kernels as they are unknown.
 
+* Downloads available [here](https://seungjunnah.github.io/Datasets/gopro)
+
 Statistics | Training | Test | Total
 -- | -- | -- | --
 sequences | 22 | 11 | 33
 image pairs | 2103 | 1111 | 3214
 
-
-__*Download links*__
-
-<!-- * [GOPRO_Large](http://cv.snu.ac.kr/~snah/Deblur/dataset/GOPRO_Large.zip) -->
-* [GOPRO_Large](https://drive.google.com/file/d/1H0PIXvJH4c40pk7ou6nAwoxuR4Qh_Sa2/view?usp=sharing)
-: Blurry and sharp image pairs. Blurry images includes both gamma corrected and not corrected (linear CRF) versions.
-
-<!-- * [GOPRO_Large_all](http://cv.snu.ac.kr/~snah/Deblur/dataset/GOPRO_Large_all.zip) -->
-* [GOPRO_Large_all](https://drive.google.com/file/d/1SlURvdQsokgsoyTosAaELc4zRjQz9T2U/view?usp=sharing)
-: All the sharp images used to generate blurry images. You can generate new blurry images by accumulating differing number of sharp frames.
-
-[//]: # " * [GOPRO_Large_raw](http://cv.snu.ac.kr/~snah/Deblur/dataset/GOPRO_Large_raw.zip)"
-
-Here are some examples.
+Here are some example images.
 
 Blurry image example 1
 ![Blurry image](images/Istanbul_blur1.png)
@@ -120,6 +109,6 @@ Sharp image example 2
 ![Sharp image](images/Flower_sharp1.png)
 
 
-## Acknowledgement
+## Acknowledgment
 
 This project is partially funded by Microsoft Research Asia
